@@ -1,0 +1,1 @@
+export { useS } from "./useS";
