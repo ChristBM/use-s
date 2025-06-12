@@ -1,7 +1,7 @@
 {
-  "name": "use-s",
-  "version": "1.0.0",
-  "description": "use-s is a minimal yet powerful React hook for managing both local and global state — with zero boilerplate",
+  "name": "use-s-react",
+  "version": "1.0.1",
+  "description": "useS is a minimal yet powerful React hook for managing both local and global state — with zero boilerplate",
   "keywords": [
     "react",
     "state management",
@@ -24,19 +24,19 @@
   "homepage": "https://github.com/ChristBM/use-s#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChristBM/use-s"
+    "url": "git+https://github.com/ChristBM/use-s.git"
   },
   "bugs": {
     "url": "https://github.com/ChristBM/use-s/issues"
   },
-  "main": "dist/hooks/index.js",
-  "module": "dist/hooks/index.js",
-  "types": "dist/hooks/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/hooks/index.js",
-      "require": "./dist/hooks/index.js",
-      "types": "./dist/hooks/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [

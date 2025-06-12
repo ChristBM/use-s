@@ -1,12 +1,12 @@
-# use-s
+# use-s-react
 
-[![npm version](https://img.shields.io/npm/v/use-s?color=blue)](https://www.npmjs.com/package/use-s)
-[![npm downloads](https://img.shields.io/npm/dm/use-s.svg)](https://www.npmjs.com/package/use-s)
-[![MIT license](https://img.shields.io/npm/l/use-s.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/use-s-react?color=blue)](https://www.npmjs.com/package/use-s-react)
+[![npm downloads](https://img.shields.io/npm/dm/use-s-react.svg)](https://www.npmjs.com/package/use-s-react)
+[![MIT license](https://img.shields.io/npm/l/use-s-react.svg)](./LICENSE)
 
 ## What is useS?
 
-**use-s** is a minimal yet powerful React hook for managing both **local** and **global** state — with zero boilerplate.
+Is a minimal yet powerful React hook for managing both **local** and **global** state — with zero boilerplate.
 
 - 🧠 **Feels like** `useState`, so it's instantly familiar.
 - 🚫 **No Providers**. No Context. No extra setup.
@@ -23,7 +23,7 @@ It's a **native and lightweight alternative** to Zustand, Redux Toolkit, React C
 Install via npm or your preferred package manager:
 
 ```bash
-npm install use-s
+npm install use-s-react
 ```
 
 ## 🚀 Quick Start
@@ -31,7 +31,7 @@ npm install use-s
 ### 🔸 Local state (just like `useState`)
 
 ```tsx
-import { useS } from "use-s";
+import { useS } from "use-s-react";
 
 const [isVisible, setIsVisible] = useS<boolean>("isVisible", false);
 ```
@@ -138,7 +138,7 @@ Here's a simple example with two components sharing the same state:
 ### 🔸 ComponentA.tsx
 
 ```tsx
-import { useS } from "use-s";
+import { useS } from "use-s-react";
 
 export function ComponentA() {
   const [count, setCount] = useS("shared-count", 0, true);
@@ -156,7 +156,7 @@ export function ComponentA() {
 ### 🔸 ComponentB.tsx
 
 ```tsx
-import { useS } from "use-s";
+import { useS } from "use-s-react";
 
 export function ComponentB() {
   const [count] = useS("shared-count", 0, true); // same key, same global flag
@@ -175,7 +175,7 @@ export function ComponentB() {
 You can inspect your global store in the console using `debugGlobalStore()`:
 
 ```tsx
-import { useS, debugGlobalStore } from "use-s";
+import { useS, debugGlobalStore } from "use-s-react";
 
 const [count, setCount] = useS("counter", 0, true);
 
@@ -189,4 +189,4 @@ This logs the current contents of the global store whenever `count` changes.
 
 ## 📜 License
 
-[MIT](./LICENSE) © Christian Boffill
+[MIT](./LICENSE) © ChristBM
