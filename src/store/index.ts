@@ -1,7 +1,8 @@
 export {
-  createOrGetState,
+  createState,
   setGlobalState,
-  subscribeToGlobalState,
-  getGlobalSnapshot,
   debugGlobalStore,
+  isKeyInitialized,
+  getGlobalSnapshot,
+  subscribeToGlobalState,
 } from "./store";

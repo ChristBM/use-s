@@ -1,61 +1,74 @@
-import { useSyncExternalStore, useState, useRef } from "react";
+import { useMemo, useState, useCallback, useSyncExternalStore } from "react";
 import { FullCopy } from "full-copy";
-import type { PartialDeep, SetStateAction } from "../types";
-import { deepAssign } from "../functions";
+
+import { deepAssign, hasChanged, normalizeUseSArgs } from "../functions";
+import type { GlobalConfig, PartialDeep, SetStateAction } from "../types";
 import {
-  createOrGetState,
-  subscribeToGlobalState,
-  getGlobalSnapshot,
+  createState,
   setGlobalState,
+  isKeyInitialized,
+  getGlobalSnapshot,
+  subscribeToGlobalState,
 } from "../store";
 
 export function useS<T>(
-  key: string,
-  initialValue: T,
-  global = false
+  config: T | GlobalConfig<T>
 ): [T, (val: SetStateAction<T>) => void] {
-  const initialized = useRef(false);
+  const { initialValue, key } = normalizeUseSArgs(config);
 
-  if (global && !initialized.current) {
-    createOrGetState<T>(key, initialValue);
-    initialized.current = true;
+  if (
+    key &&
+    typeof key === "string" &&
+    key.length > 0 &&
+    !isKeyInitialized(key)
+  ) {
+    createState<T>(key, initialValue);
   }
 
-  const globalState = useSyncExternalStore(
-    (cb) => subscribeToGlobalState(key, cb),
-    () => getGlobalSnapshot<T>(key)
-  );
+  const [subscribe, getSnapshot] = useMemo(() => {
+    if (!key) {
+      return [() => () => {}, () => initialValue];
+    }
+    return [
+      (cb: () => void) => subscribeToGlobalState(key, cb),
+      () => getGlobalSnapshot<T>(key),
+    ];
+  }, [key, initialValue]);
 
+  const globalState = useSyncExternalStore(subscribe, getSnapshot);
   const [localState, setLocalState] = useState<T>(initialValue);
 
-  const setState = (val: SetStateAction<T>) => {
-    const current = global ? getGlobalSnapshot<T>(key) : localState;
-    let cloned = FullCopy(current);
+  const setState = useCallback(
+    (val: SetStateAction<T>) => {
+      const current = key ? getGlobalSnapshot<T>(key) : localState;
 
-    const resolved =
-      typeof val === "function"
-        ? (val as (prev: T) => PartialDeep<T>)(cloned)
-        : val;
+      const resolved =
+        typeof val === "function"
+          ? (val as (prev: T) => PartialDeep<T>)(current)
+          : val;
 
-    if (
-      typeof cloned === "object" &&
-      cloned !== null &&
-      typeof resolved === "object" &&
-      resolved !== null &&
-      !Array.isArray(cloned) &&
-      !Array.isArray(resolved)
-    ) {
-      deepAssign(cloned as object, resolved as object);
-    } else {
-      cloned = resolved as T;
-    }
+      const { changed, type } = hasChanged(current, resolved);
 
-    if (global) {
-      setGlobalState(key, cloned);
-    } else {
-      setLocalState(cloned);
-    }
-  };
+      if (!changed) return;
 
-  return [global ? globalState : localState, setState];
+      let newState: T;
+
+      if (type === "object") {
+        const cloned = FullCopy(current);
+        deepAssign(cloned as object, resolved as object);
+        newState = cloned;
+      } else {
+        newState = resolved as T;
+      }
+
+      if (key) {
+        setGlobalState(key, newState);
+      } else {
+        setLocalState(newState);
+      }
+    },
+    [key, localState]
+  );
+
+  return [key ? globalState : localState, setState];
 }

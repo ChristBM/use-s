@@ -1,6 +1,6 @@
 {
   "name": "use-s-react",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "useS is a minimal yet powerful React hook for managing both local and global state — with zero boilerplate",
   "keywords": [
     "react",
@@ -44,9 +44,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test",
-    "test": "echo \"No test specified\" && exit 0"
+    "clean": "rm -rf dist"
   },
   "peerDependencies": {
     "react": ">=18.0.0"

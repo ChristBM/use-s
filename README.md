@@ -15,133 +15,82 @@ Is a minimal yet powerful React hook for managing both **local** and **global** 
 - 🔁 Supports `setState(prev => ...)` logic.
 - 🧼 Built with TypeScript and powered by [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore) and [`full-copy`](https://www.npmjs.com/package/full-copy) for deep reactivity.
 
-It's a **native and lightweight alternative** to Zustand, Redux Toolkit, React Context, and even `useState` itself — perfect for projects that need power and simplicity without the overhead.
-
+It's a **native and lightweight alternative** to Zustand, Redux Toolkit, React Context, React useReducer and even `useState` itself — perfect for projects that need power and simplicity without the overhead.
 
 ## 📦 Installation
 
 Install via npm or your preferred package manager:
 
 ```bash
-npm install use-s-react
+
+npm i use-s-react
+
 ```
 
 ## 🚀 Quick Start
 
-### 🔸 Local state (just like `useState`)
+### 🔸 Import the hook
 
 ```tsx
+
 import { useS } from "use-s-react";
 
-const [isVisible, setIsVisible] = useS<boolean>("isVisible", false);
 ```
 
-### 🔸 Global shared state
+### 🔸 Local state (same as `useState`)
 
 ```tsx
-const [isVisible, setIsVisible] = useS<boolean>("isVisible", false, true);
+
+const [count, setCount] = useS(0);
+
 ```
 
-### 🔸 With objects
+### 🔸 Global state (via config object)
 
 ```tsx
-const [user, setUser] = useS<{ name: string }>("user", { name: "John" });
+
+const [count, setCount] = useS({ value: 0, key: 'global-counter' });
+
 ```
 
-### 🔸 Destructuring deeply
+### ✅ Best Practice: External Global Store
+
+Use a `store.ts` to centralize your global state configs:
 
 ```tsx
-const [{ name }, setUser] = useS<{ name: string }>("user", { name: "John" });
-```
 
-## 🧩 API
-
-```ts
-const [state, setState] = useS<T>(
-  key: string,
-  initialValue: T,
-  global?: boolean // default is false
-);
-```
-
-- **`key`**: Unique ID for the state entry.
-- **`initialValue`**: Used only if the key doesn't exist yet.
-- **`global`**: If `true`, the state is shared across components using the same key.
-
-## 🛠️ Usage Examples
-
-### 🔢 Global Primitive
-
-```tsx
-const [count, setCount] = useS("counter", 0, true);
-
-setCount(prev => prev + 1);
-```
-
-### 🧍 Global Object
-
-```tsx
-type User = {
-  name: string;
-  info: {
-    lang: "en" | "es";
-    age: number;
-  };
-};
-
-const initialValue: User = {
-  name: "Alex",
-  info: {
-    lang: "en",
-    age: 20
+// store.ts
+export const store = {
+  globalCounter: {
+    value: 0,
+    key: 'global-counter',
+  },
+  globalUser: {
+    value: {
+      name: "John",
+      age: 30,
+    },
+    key: 'global-user',
   }
 };
 
-const [user, setUser] = useS<User>("user", initialValue, true);
+// Then import and use it:
+import { store } from "./store";
 
-// Update a single property (deep merging preserved)
-setUser({ name: "Pedro" });
+const [count, setCount] = useS(store.globalCounter);
 
-// Update based on previous state
-setUser(prev => ({ info: { age: prev.info.age + 1 } }));
-
-// Or mutate safely using FullCopy internally
-setUser(prev => {
-  prev.info.lang = "es";
-  return prev;
-});
-```
-
-## 🔍 Deep Updates
-
-Updates are **deep-merged** using [`full-copy`](https://www.npmjs.com/package/full-copy), so nested keys are preserved unless overwritten.
-
-```tsx
-setUser({ info: { lang: "es" } }); // doesn't erase other info keys
-```
-
-You can also return a new state based on the previous:
-
-```tsx
-setUser(prev => {
-  prev.info.lang = "es";
-  return prev;
-});
 ```
 
 ## ♻️ Sharing Global State Between Components
 
-You can define a global state in one component and reuse it in others using the same `key` and `global: true`.
-
-Here's a simple example with two components sharing the same state:
-
 ### 🔸 ComponentA.tsx
 
 ```tsx
+
 import { useS } from "use-s-react";
 
 export function ComponentA() {
-  const [count, setCount] = useS("shared-count", 0, true);
+  const [count, setCount] = useS({ value: 0, key: 'global-counter' });
 
   return (
     <div>
@@ -151,15 +100,17 @@ export function ComponentA() {
     </div>
   );
 }
+
 ```
 
 ### 🔸 ComponentB.tsx
 
 ```tsx
+
 import { useS } from "use-s-react";
 
 export function ComponentB() {
-  const [count] = useS("shared-count", 0, true); // same key, same global flag
+  const [count] = useS({ value: 0, key: 'global-counter' });
 
   return (
     <div>
@@ -168,24 +119,77 @@ export function ComponentB() {
     </div>
   );
 }
+
 ```
+
+## 🔁 Deep Updates & More
+
+- Updates are **deep-merged** using [`full-copy`](https://www.npmjs.com/package/full-copy), preserving nested structures:
+
+```tsx
+
+setUser({ info: { lang: "es" } }); // doesn't erase other info keys
+
+```
+
+- You can also return a new state based on the previous:
+
+```tsx
+
+setUser(prev => ({
+  info: {
+    lang: prev === 'en' ? 'es',
+    },
+  })
+);
+
+```
+
+- Destructuring deeply
+
+```tsx
+
+const [{ name, age }, setUser] = useS({
+  value: {
+    name: "John",
+    age: 20
+  },
+  key: "global-user"
+});
+
+```
+
+- Infer state typing based on initial value
 
 ## 🧪 Debugging (Optional)
 
-You can inspect your global store in the console using `debugGlobalStore()`:
+Use `debugGlobalStore()` to inspect all global state in the console:
 
 ```tsx
-import { useS, debugGlobalStore } from "use-s-react";
 
-const [count, setCount] = useS("counter", 0, true);
+import { debugGlobalStore } from "use-s-react";
 
 useEffect(() => {
-  debugGlobalStore();
-}, [count]);
+  debugGlobalStore(); // logs all keys
+
+  debugGlobalStore({ filterKey: "global-user" }); // only "global-user"
+
+  debugGlobalStore({ withConsoleTable: false }); // plain logs
+}, []);
+
 ```
 
-This logs the current contents of the global store whenever `count` changes.
+✅ Fully compatible with React Native — debugGlobalStore() gracefully falls back to console.log when console.table is not available.
 
+🔍 console.table will be used when possible for better clarity.
+
+## 🔧 API Summary
+
+`useS(initialValue: T)`
+Creates a local state, just like useState (but with super powers).
+
+`useS({ value, key })`
+Makes the state globally available for use by other components. The key must be unique.
 
 ## 📜 License
 
