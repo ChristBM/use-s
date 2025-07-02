@@ -138,7 +138,7 @@ setUser({ info: { lang: "es" } }); // doesn't erase other info keys
 
 setUser(prev => ({
   info: {
-    lang: prev === 'en' ? 'es',
+    lang: prev === 'en' ? 'es' : 'en',
     },
   })
 );
