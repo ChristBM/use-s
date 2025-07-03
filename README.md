@@ -1,5 +1,9 @@
 # use-s-react
 
+<p align="left">
+  <img src="https://use-s-react.christbm.dev/logo.png" width="200" alt="useS Logo" />
+</p>
+
 [![npm version](https://img.shields.io/npm/v/use-s-react?color=blue)](https://www.npmjs.com/package/use-s-react)
 [![npm downloads](https://img.shields.io/npm/dm/use-s-react.svg)](https://www.npmjs.com/package/use-s-react)
 [![stars](https://badgen.net/github/stars/ChristBM/use-s)](https://github.com/starts/ChristBM/use-s)
@@ -17,6 +21,12 @@ Is a minimal yet powerful React hook for managing both **local** and **global** 
 - 🧼 Built with TypeScript and powered by [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore) and [`full-copy`](https://www.npmjs.com/package/full-copy) for deep reactivity.
 
 It's a **native and lightweight alternative** to Zustand, Redux Toolkit, React Context, React useReducer and even `useState` itself — perfect for projects that need power and simplicity without the overhead.
+
+---
+
+📘 **Want to understand `use-s-react` in depth?**
+👉 [Visit the useS Documentation](https://use-s-react.christbm.dev)
+
 
 ## 📦 Installation
 

@@ -1,27 +1,28 @@
 {
   "name": "use-s-react",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "useS is a minimal yet powerful React hook for managing both local and global state — with zero boilerplate",
   "keywords": [
     "react",
-    "state management",
     "hook",
-    "useSyncExternalStore",
-    "zustand alternative",
-    "redux alternative",
+    "useS",
+    "use-s-react",
+    "state management",
+    "local state",
     "global state",
-    "react store",
-    "store",
-    "complex object state management",
+    "typescript",
     "lightweight",
-    "typescript"
+    "immutability",
+    "useState alternative",
+    "useSyncExternalStore",
+    "complex object state management"
   ],
   "author": {
     "name": "Christian Boffill",
     "url": "https://github.com/ChristBM"
   },
   "license": "MIT",
-  "homepage": "https://github.com/ChristBM/use-s#readme",
+  "homepage": "https://use-s-react.christbm.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ChristBM/use-s.git"
