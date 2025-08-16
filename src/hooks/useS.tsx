@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback, useSyncExternalStore } from "react";
-import { FullCopy } from "full-copy";
+import { useMemo, useState, useSyncExternalStore } from "react";
+import { FullCopy, TypeCheck } from "full-copy";
 
 import { deepAssign, hasChanged, normalizeUseSArgs } from "../functions";
 import type { GlobalConfig, PartialDeep, SetStateAction } from "../types";
@@ -38,8 +38,7 @@ export function useS<T>(
   const globalState = useSyncExternalStore(subscribe, getSnapshot);
   const [localState, setLocalState] = useState<T>(initialValue);
 
-  const setState = useCallback(
-    (val: SetStateAction<T>) => {
+  const setState = (val: SetStateAction<T>) => {
       const current = key ? getGlobalSnapshot<T>(key) : localState;
 
       const resolved =
