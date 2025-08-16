@@ -1,3 +1,4 @@
+import { FullCopy } from "full-copy";
 import type { GlobalConfig } from "../types";
 
 export function normalizeUseSArgs<T>(config: T | GlobalConfig<T>): {
@@ -10,7 +11,7 @@ export function normalizeUseSArgs<T>(config: T | GlobalConfig<T>): {
     "value" in config &&
     "key" in config;
 
-  const initialValue = isValidGlobalConfig
+  const value = isValidGlobalConfig
     ? (config as GlobalConfig<T>).value
     : (config as T);
 
@@ -18,5 +19,5 @@ export function normalizeUseSArgs<T>(config: T | GlobalConfig<T>): {
     ? (config as GlobalConfig<T>).key
     : undefined;
 
-  return { initialValue, key };
+  return { initialValue: FullCopy(value), key };
 }
