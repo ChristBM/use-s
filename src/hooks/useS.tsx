@@ -66,5 +66,5 @@ export function useS<T>(
       }
   };
 
-  return [key ? globalState : localState, setState];
+  return [key ? FullCopy(globalState) : FullCopy(localState), setState];
 }
