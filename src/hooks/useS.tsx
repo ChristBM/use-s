@@ -18,7 +18,7 @@ export function useS<T>(
 
   if (
     key &&
-    typeof key === "string" &&
+    TypeCheck(key)[0] === "string" &&
     key.length > 0 &&
     !isKeyInitialized(key)
   ) {
@@ -42,20 +42,19 @@ export function useS<T>(
       const current = key ? getGlobalSnapshot<T>(key) : localState;
 
       const resolved =
-        typeof val === "function"
+      TypeCheck(val)[0] === "function"
           ? (val as (prev: T) => PartialDeep<T>)(current)
           : val;
 
-      const { changed, type } = hasChanged(current, resolved);
+    const changed = hasChanged(current, resolved);
 
       if (!changed) return;
 
       let newState: T;
 
-      if (type === "object") {
-        const cloned = FullCopy(current);
-        deepAssign(cloned as object, resolved as object);
-        newState = cloned;
+    if (TypeCheck(current)[0] === "object") {
+      newState = FullCopy(current);
+      deepAssign(newState as object, resolved as object);
       } else {
         newState = resolved as T;
       }
@@ -65,9 +64,7 @@ export function useS<T>(
       } else {
         setLocalState(newState);
       }
-    },
-    [key, localState]
-  );
+  };
 
   return [key ? globalState : localState, setState];
 }
