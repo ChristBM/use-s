@@ -14,7 +14,7 @@ import {
 export function useS<T>(
   config: T | GlobalConfig<T>
 ): [T, (val: SetStateAction<T>) => void] {
-  const { initialValue, key } = normalizeUseSArgs(config);
+  const { initialValue, key } = useMemo(() => normalizeUseSArgs(config), [config]);
 
   if (
     key &&
