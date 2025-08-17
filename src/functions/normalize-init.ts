@@ -1,7 +1,7 @@
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig } from "../types";
 
-export function normalizeUseSArgs<T>(init: T | GlobalStateConfig<T>): {
+export function normalizeInit<T>(init: T | GlobalStateConfig<T>): {
   initialValue: T;
   key?: string;
 } {
