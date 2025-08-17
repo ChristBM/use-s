@@ -1,6 +1,7 @@
 import { TypeCheck } from "full-copy";
 import type {
   DebugOptions,
+  GlobalStateConfig,
   Listener,
   StateEntry,
   SupportedValueType,
@@ -8,17 +9,17 @@ import type {
 
 const store = new Map<string, StateEntry<unknown>>();
 
-export function createState<T>(key: string, initial: T) {
+export function createState<T>({ key, value }: GlobalStateConfig<T>) {
   store.set(key, {
-    value: initial,
+    value,
     listeners: new Set(),
   });
 }
 
-export function setGlobalState<T>(key: string, newValue: T) {
+export function setGlobalState<T>({ key, value }: GlobalStateConfig<T>) {
   const entry = store.get(key) as StateEntry<T> | undefined;
   if (entry) {
-    entry.value = newValue;
+    entry.value = value;
     entry.listeners.forEach((fn) => fn());
   }
 }

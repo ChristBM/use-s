@@ -22,7 +22,7 @@ export function useS<T>(
     key.length > 0 &&
     !isKeyInitialized(key)
   ) {
-    createState<T>(key, initialValue);
+    createState<T>({ value: initialValue, key });
   }
 
   const [subscribe, getSnapshot] = useMemo(() => {
@@ -59,7 +59,7 @@ export function useS<T>(
       }
     } else newState = resolved as T;
 
-    if (key) setGlobalState(key, newState);
+    if (key) setGlobalState({ value: newState, key});
     else setLocalState(newState);
   };
 
