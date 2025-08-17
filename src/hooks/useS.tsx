@@ -1,8 +1,8 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy, TypeCheck } from "full-copy";
 
-import { deepAssign, hasChanged, normalizeUseSArgs } from "../functions";
 import type { GlobalConfig, PartialDeep, SetStateAction } from "../types";
+import { deepAssign, isValidChange, normalizeUseSArgs } from "../functions";
 import {
   createState,
   setGlobalState,
@@ -39,31 +39,28 @@ export function useS<T>(
   const [localState, setLocalState] = useState<T>(initialValue);
 
   const setState = (val: SetStateAction<T>) => {
-      const current = key ? getGlobalSnapshot<T>(key) : localState;
+    const current = key ? getGlobalSnapshot<T>(key) : localState;
 
-      const resolved =
+    const resolved =
       TypeCheck(val)[0] === "function"
-          ? (val as (prev: T) => PartialDeep<T>)(current)
-          : val;
+        ? (val as (prev: T) => PartialDeep<T>)(current)
+        : val;
 
-    const changed = hasChanged(current, resolved);
+    if (!isValidChange(current, resolved)) return;
 
-      if (!changed) return;
+    let newState: T;
 
-      let newState: T;
-
-    if (TypeCheck(current)[0] === "object") {
-      newState = FullCopy(current);
-      deepAssign(newState as object, resolved as object);
-      } else {
+    if (TypeCheck(current)[0] === "object" && TypeCheck(resolved)[0] === "object") {
+      if (Object.keys(current as "object").length === 0 || Object.keys(resolved).length === 0) {
         newState = resolved as T;
-      }
-
-      if (key) {
-        setGlobalState(key, newState);
       } else {
-        setLocalState(newState);
+        newState = FullCopy(current);
+        deepAssign(newState as object, resolved as object);
       }
+    } else newState = resolved as T;
+
+    if (key) setGlobalState(key, newState);
+    else setLocalState(newState);
   };
 
   return [key ? FullCopy(globalState) : FullCopy(localState), setState];

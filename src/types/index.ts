@@ -26,6 +26,7 @@ export type SupportedValueType =
   | "number"
   | "string"
   | "boolean"
+  | "bigint"
   | "undefined"
   | "null"
   | "date"
@@ -33,4 +34,7 @@ export type SupportedValueType =
   | "set"
   | "map"
   | "array"
-  | "object";
+  | "object"
+  | "function";
+
+  export type ComparisonResponseType = "equals" | "different" | "incompatible";
