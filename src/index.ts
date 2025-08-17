@@ -1,2 +1,2 @@
 export { useS } from "./hooks";
-export { debugGlobalStore } from "./store";
+export { debugGlobalStore } from "./functions";

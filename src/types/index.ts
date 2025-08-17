@@ -19,7 +19,7 @@ export type GlobalStateConfig<T> = { value: T; key: string };
 
 export type DebugOptions = {
   filterKey?: string;
-  withConsoleTable?: boolean;
+  consoleLog?: boolean;
 };
 
 export type SupportedValueType =
