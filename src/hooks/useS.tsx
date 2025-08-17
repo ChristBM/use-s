@@ -21,14 +21,10 @@ export function useS<T>(
     TypeCheck(key)[0] === "string" &&
     key.length > 0 &&
     !isKeyInitialized(key)
-  ) {
-    createState<T>({ value: initialValue, key });
-  }
+  ) createState<T>({ value: initialValue, key });
 
   const [subscribe, getSnapshot] = useMemo(() => {
-    if (!key) {
-      return [() => () => {}, () => initialValue];
-    }
+    if (!key) return [() => () => {}, () => initialValue];
     return [
       (cb: () => void) => subscribeToGlobalState(key, cb),
       () => getGlobalSnapshot<T>(key),
