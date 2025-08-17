@@ -1,7 +1,7 @@
 import { FullCopy } from "full-copy";
-import type { GlobalConfig } from "../types";
+import type { GlobalStateConfig } from "../types";
 
-export function normalizeUseSArgs<T>(config: T | GlobalConfig<T>): {
+export function normalizeUseSArgs<T>(config: T | GlobalStateConfig<T>): {
   initialValue: T;
   key?: string;
 } {
@@ -12,11 +12,11 @@ export function normalizeUseSArgs<T>(config: T | GlobalConfig<T>): {
     "key" in config;
 
   const value = isValidGlobalConfig
-    ? (config as GlobalConfig<T>).value
+    ? (config as GlobalStateConfig<T>).value
     : (config as T);
 
   const key: string | undefined = isValidGlobalConfig
-    ? (config as GlobalConfig<T>).key
+    ? (config as GlobalStateConfig<T>).key
     : undefined;
 
   return { initialValue: FullCopy(value), key };

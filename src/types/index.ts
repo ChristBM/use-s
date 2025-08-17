@@ -15,7 +15,7 @@ export type StateEntry<T> = {
   listeners: Set<Listener>;
 };
 
-export type GlobalConfig<T> = { value: T; key: string };
+export type GlobalStateConfig<T> = { value: T; key: string };
 
 export type DebugOptions = {
   filterKey?: string;

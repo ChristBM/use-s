@@ -1,7 +1,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy, TypeCheck } from "full-copy";
 
-import type { GlobalConfig, PartialDeep, SetStateAction } from "../types";
+import type { GlobalStateConfig, PartialDeep, SetStateAction } from "../types";
 import { deepAssign, isValidChange, normalizeUseSArgs } from "../functions";
 import {
   createState,
@@ -12,9 +12,9 @@ import {
 } from "../store";
 
 export function useS<T>(
-  config: T | GlobalConfig<T>
+  init: T | GlobalStateConfig<T>
 ): [T, (val: SetStateAction<T>) => void] {
-  const { initialValue, key } = useMemo(() => normalizeUseSArgs(config), [config]);
+  const { initialValue, key } = useMemo(() => normalizeUseSArgs(init), [init]);
 
   if (
     key &&
