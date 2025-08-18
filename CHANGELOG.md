@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.0] - 2025-08-17
+
+### ✨ Added
+
+- New function for internal comparison of the previous value with the new one in `setState()` called `isValidChange()`.
+- Immutability on both input and output of the hook using `FullCopy()`.
+
+### 🔄 Changed
+
+- Usage of `TypeCheck()` for type checking in all cases.
+- Optimization in the debug function: `debugGlobalStore()`, now located in its own file. Renamed `withConsoleTable` to `consoleLog` and inverted its logic.
+- `normalizeInit()` now returns a new memory reference with the same value from the initial value passed to the hook.
+- With `FullCopy()`, a different memory reference with the same value is returned from the real state, allowing direct mutations from the component without affecting the real state.
+- `isValidChange()` performs a deeper and more thorough comparison than the previous `hasChanged()`. It introduces the concept of validation instead of just comparing values; in this intermediate step it determines if the new value is supported and different. This function prevents unnecessary or erroneous state updates. `isValidChange()` helps establish object handling in useS as fixed data structures, where each key is treated as an independent state, whose shape is predetermined by the initialValue passed to the hook initially.
+
+### 🛠️ Fixed
+
+- Memoized `normalizeInit()` with **useMemo** ensuring it executes only once.
+- Stopped using **useCallback** for `setState()`, as it provided no benefit.
+- Extended the use of **GlobalStateConfig** to all functions handling a `{ value, key }`.
+- Improved function and argument naming.
+- `setState()` now allows common initializations of previous states using: null, undefined, {}, [], new Set(), new Map(), etc., as applicable. It also allows assigning new values to previous states initialized with the aforementioned values.
+
+### ❌ Deprecated
+
+- In the optional config of `debugGlobalStore()`, `withConsoleTable` is no longer used. Instead, if you want to display the result with `console.log()`, set the `consoleLog` key to **true**, which defaults to **false**.
+
+---
+
 ## [2.0.0] - 2025-06-23
 
 ### ⚠️ Breaking

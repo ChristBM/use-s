@@ -66,7 +66,8 @@ const [count, setCount] = useS({ value: 0, key: 'global-counter' });
 
 ### ✅ Best Practice: External Global Store
 
-Use a `store.ts` to centralize your global state configs:
+It is recommended to always pass the same reference of the initial value to `useS` instead of declaring the initial value directly inside the hook to improve performance.
+A good way to do this is by declaring an `initialValue` in your component or a centralized `store.ts` for the global state of your application:
 
 ```tsx
 
@@ -85,10 +86,12 @@ export const store = {
   }
 };
 
-// Then import and use it:
+// Then import the hook
 import { store } from "./store";
 
-const [count, setCount] = useS(store.globalCounter);
+// And use it in your Component:
+const [count, setCount] = useS(store.globalCounter); // Global
+const [countLocal, setCountLocal] = useS(store.globalCounter.value); // Local
 
 ```
 
@@ -172,6 +175,33 @@ const [{ name, age }, setUser] = useS({
 
 - Infer state typing based on initial value
 
+## 🗿 Immutability
+
+useS shares a mutable reference to the component that is not the original state, which prevents you from breaking the no-mutation rule and allows you to do things like this:
+
+```tsx
+const initialValue = new Set([1, 2, 3, 4]);
+
+export function LocalStateTypeSet() {
+  const [mySet, setMySet] = useS(initialValue);
+
+  const handleAddItem = () => {
+    mySet.add(5); // mutating the mySet state directly
+    setMySet(mySet); // setting the mutated state to generate a valid change
+  };
+
+  return (
+    <div>
+      <p data-testid="display">Items:{Array.from(mySet).join("-")}</p>
+      <button onClick={handleAddItem}>Add Item</button>
+    </div>
+  );
+}
+
+```
+You can do the same with other supported data types such as: `array | object | map | date | regexp`.
+
+
 ## 🧪 Debugging (Optional)
 
 Use `debugGlobalStore()` to inspect all global state in the console:
@@ -185,7 +215,7 @@ useEffect(() => {
 
   debugGlobalStore({ filterKey: "global-user" }); // only "global-user"
 
-  debugGlobalStore({ withConsoleTable: false }); // plain logs
+  debugGlobalStore({ consoleLog: true }); // plain logs
 }, []);
 
 ```
