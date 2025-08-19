@@ -1,7 +1,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy, TypeCheck } from "full-copy";
 
-import type { GlobalStateConfig, PartialDeep, SetStateAction } from "../types";
+import type { GlobalStateConfig, HookConfig, PartialDeep, SetStateAction } from "../types";
 import { normalizeInit, isValidChange, deepAssign } from "../functions";
 import {
   createState,
@@ -12,9 +12,13 @@ import {
 } from "../store";
 
 export function useS<T>(
-  init: T | GlobalStateConfig<T>
+  init: T | GlobalStateConfig<T>,
+  {
+    mutableIn = false,
+    mutableOut = false,
+  }: HookConfig = {}
 ): [T, (val: SetStateAction<T>) => void] {
-  const { initialValue, key } = useMemo(() => normalizeInit(init), [init]);
+  const { initialValue, key } = useMemo(() => normalizeInit(init, mutableIn), [init, mutableIn]);
 
   if (
     key &&
@@ -58,6 +62,8 @@ export function useS<T>(
     if (key) setGlobalState({ value: newState, key});
     else setLocalState(newState);
   };
+
+  if (mutableOut) return [key ? globalState : localState, setState];
 
   return [key ? FullCopy(globalState) : FullCopy(localState), setState];
 }

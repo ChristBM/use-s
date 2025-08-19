@@ -17,6 +17,11 @@ export type StateEntry<T> = {
 
 export type GlobalStateConfig<T> = { value: T; key: string };
 
+export type HookConfig = {
+  mutableIn?: boolean;
+  mutableOut?: boolean;
+};
+
 export type DebugOptions = {
   filterKey?: string;
   consoleLog?: boolean;

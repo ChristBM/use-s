@@ -8,13 +8,13 @@ export function debugGlobalStore({ filterKey, consoleLog = false }: DebugOptions
 
   for (const [key, entry] of store.entries()) {
     if (filterKey && key !== filterKey) continue;
-    DisplayByType<unknown>({ value: entry.value, key }, logWithTable);
+    displayByType<unknown>({ value: entry.value, key }, logWithTable);
   }
 
   console.groupEnd();
 }
 
-function DisplayByType<T>({ value, key }: GlobalStateConfig<T>, logWithTable: boolean) {
+function displayByType<T>({ value, key }: GlobalStateConfig<T>, logWithTable: boolean) {
   console.groupCollapsed(`🔑 ${key} (${TypeCheck(value)[0]})`);
 
   if (!logWithTable) console.log(value);

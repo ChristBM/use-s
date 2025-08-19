@@ -1,7 +1,7 @@
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig } from "../types";
 
-export function normalizeInit<T>(init: T | GlobalStateConfig<T>): {
+export function normalizeInit<T>(init: T | GlobalStateConfig<T>, mutableIn = false): {
   initialValue: T;
   key?: string;
 } {
@@ -19,5 +19,5 @@ export function normalizeInit<T>(init: T | GlobalStateConfig<T>): {
     ? (init as GlobalStateConfig<T>).key
     : undefined;
 
-  return { initialValue: FullCopy(value), key };
+  return { initialValue: mutableIn ? value : FullCopy(value), key };
 }
