@@ -1,23 +1,17 @@
 import { FullCopy } from "full-copy";
-import type { GlobalStateConfig } from "../types";
+import type { GlobalStateConfig, NormalizedIn } from "../types";
 
-export function normalizeInit<T>(init: T | GlobalStateConfig<T>, mutableIn = false): {
-  initialValue: T;
-  key?: string;
-} {
-  const isValidGlobalConfig: boolean =
-    typeof init === "object" &&
-    init !== null &&
-    "value" in init &&
-    "key" in init;
+export function normalizeInit<T>(init: T | GlobalStateConfig<T>, mutableIn = false): NormalizedIn<T> {
+  if (isGlobalStateConfig<T>(init)) {
+    const { value, key } = init;
+    return {
+      initialValue: mutableIn ? value : FullCopy(value),
+      key: key && key.length > 0 ? key : undefined,
+    };
+  }
+  return { initialValue: mutableIn ? init : FullCopy(init) };
+}
 
-  const value = isValidGlobalConfig
-    ? (init as GlobalStateConfig<T>).value
-    : (init as T);
-
-  const key: string | undefined = isValidGlobalConfig
-    ? (init as GlobalStateConfig<T>).key
-    : undefined;
-
-  return { initialValue: mutableIn ? value : FullCopy(value), key };
+function isGlobalStateConfig<T>(conf: unknown): conf is GlobalStateConfig<T> {
+  return typeof conf === "object" && conf !== null && "value" in conf && "key" in conf;
 }

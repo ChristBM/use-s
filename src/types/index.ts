@@ -1,3 +1,14 @@
+// hook
+export type GlobalStateConfig<T> = { value: T; key: string };
+
+export type HookConfig = {
+  mutableIn?: boolean;
+  mutableOut?: boolean;
+  forceUpdate?: boolean;
+};
+
+export type NormalizedIn<T> = { initialValue: T; key?: string };
+
 export type PartialDeep<T> = {
   [P in keyof T]?: T[P] extends (...args: unknown[]) => unknown
     ? T[P]
@@ -7,26 +18,6 @@ export type PartialDeep<T> = {
 };
 
 export type SetStateAction<T> = PartialDeep<T> | ((prev: T) => PartialDeep<T>);
-
-export type Listener = () => void;
-
-export type StateEntry<T> = {
-  value: T;
-  listeners: Set<Listener>;
-};
-
-export type GlobalStateConfig<T> = { value: T; key: string };
-
-export type HookConfig = {
-  mutableIn?: boolean;
-  mutableOut?: boolean;
-  forceUpdate?: boolean;
-};
-
-export type DebugOptions = {
-  filterKey?: string;
-  consoleLog?: boolean;
-};
 
 export type SupportedValueType =
   | "number"
@@ -43,4 +34,12 @@ export type SupportedValueType =
   | "object"
   | "function";
 
-  export type ComparisonResponseType = "equals" | "different" | "incompatible";
+export type ComparisonResponseType = "equals" | "different" | "incompatible";
+
+// store
+export type Listener = () => void;
+
+export type StateEntry<T> = { value: T; listeners: Set<Listener> };
+
+// debug
+export type DebugOptions = { filterKey?: string; consoleLog?: boolean };

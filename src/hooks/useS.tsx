@@ -1,15 +1,8 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
-import { FullCopy, TypeCheck } from "full-copy";
-
+import { FullCopy } from "full-copy";
 import type { GlobalStateConfig, HookConfig, PartialDeep, SetStateAction } from "../types";
 import { normalizeInit, isValidChange, deepAssign, isObjectWithKeys } from "../functions";
-import {
-  createState,
-  setGlobalState,
-  isKeyInitialized,
-  getGlobalSnapshot,
-  subscribeToGlobalState,
-} from "../store";
+import { createState, setGlobalState, isKeyInitialized, getGlobalSnapshot, subscribeToGlobalState } from "../store";
 
 export function useS<T>(
   init: T | GlobalStateConfig<T>,
@@ -21,12 +14,7 @@ export function useS<T>(
 ): [T, (val: SetStateAction<T>) => void] {
   const { initialValue, key } = useMemo(() => normalizeInit(init, mutableIn), [init, mutableIn]);
 
-  if (
-    key &&
-    TypeCheck(key)[0] === "string" &&
-    key.length > 0 &&
-    !isKeyInitialized(key)
-  ) createState<T>({ value: initialValue, key });
+  if (key && !isKeyInitialized(key)) createState<T>({ value: initialValue, key });
 
   const [subscribe, getSnapshot] = useMemo(() => {
     if (!key) return [() => () => {}, () => initialValue];
@@ -47,7 +35,7 @@ export function useS<T>(
   const setState = (val: SetStateAction<T>) => {
     const current = key ? getGlobalSnapshot<T>(key) : localState;
 
-    const resolved = TypeCheck(val)[0] === "function"
+    const resolved = typeof val === "function"
       ? (val as (prev: T) => PartialDeep<T>)(current)
       : val;
 
