@@ -232,11 +232,7 @@ function hasMeaningfulChange(
         !isNullable(prevValue, nextValue)
       )
         return "incompatible";
-      else if (
-        isSameType(prevValue, nextValue) &&
-        isNullable(prevValue, nextValue)
-      )
-        res = "different";
+      else if (isNullable(prevValue, nextValue)) res = "different";
       else res = areEqual(prevValue, nextValue);
     }
 
