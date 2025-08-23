@@ -229,8 +229,28 @@ useEffect(() => {
 `useS(initialValue: T)`
 Creates a local state, just like useState (but with super powers).
 
-`useS({ value, key })`
+`useS({ value: T; key: string })`
 Makes the state globally available for use by other components. The key must be unique.
+
+### 🛠️ Hook Config
+
+useS supports an optional second configuration parameter that gives developers control over the default enhancements the hook provides.
+
+```ts
+useS(initialValue: T || { value: T; key: string },
+  {
+    mutableIn?: boolean;
+    mutableOut?: boolean;
+    forceUpdate?: boolean;
+  }
+)
+```
+
+- `mutableIn` defaults to false. This means useS creates a clone of the initial value, and that new reference is used to create the state. This ensures immutability on input, allowing the developer to freely mutate the initial value elsewhere in the code without affecting the state. If `mutableIn = true`, useS will use the same reference of the initial value passed into the hook when creating the state.
+
+- `mutableOut` defaults to false. This means useS returns a clone of the original state. This ensures immutability on output, letting you mutate that returned value inside the component without affecting the state. If `mutableOut = true`, useS returns the original state instead.
+
+- `forceUpdate` defaults to false. This means that inside setState, useS validates the new value, and if it’s an object, it treats it as a partial of the previous value and merges it accordingly. If `forceUpdate = true`, anything you pass to setState will be used to update the state, with the same restrictions as React’s default useState.
 
 ## 📜 License
 
