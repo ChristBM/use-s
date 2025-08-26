@@ -5,3 +5,7 @@ export function isObjectWithKeys(val: unknown): boolean {
   for (const _ in val as object) return true;
   return false;
 }
+
+export function isObject(val: unknown): val is object {
+  return TypeCheck(val)[0] === "object";
+}
