@@ -27,7 +27,7 @@ export function useS<T>(
   const [localState, setLocalState] = useState<T>(initialValue);
 
   function updateState(value: T) {
-    if (key) setGlobalState({ value, key });
+    if (key) setGlobalState({ value, key, persist });
     else setLocalState(value);
   }
 

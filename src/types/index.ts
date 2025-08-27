@@ -42,5 +42,7 @@ export type Listener = () => void;
 
 export type StateEntry<T> = { value: T; listeners: Set<Listener> };
 
+export type SetStorageState<T> = GlobalStateConfig<T> & { persist?: boolean };
+
 // debug
 export type DebugOptions = { filterKey?: string; consoleLog?: boolean };
