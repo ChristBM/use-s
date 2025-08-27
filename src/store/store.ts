@@ -35,3 +35,7 @@ export function getGlobalSnapshot<T>(key: string): T {
 export function isKeyInitialized(key: string): boolean {
   return !!key && store.has(key);
 }
+
+export function getGlobalState(key: string) {
+  return store.get(key)?.value;
+}

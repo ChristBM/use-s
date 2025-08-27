@@ -2,19 +2,18 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig, HookConfig, PartialDeep, SetStateAction } from "../types";
 import { normalizeInit, isValidChange, deepAssign, isObjectWithKeys } from "../functions";
-import { createState, setGlobalState, isKeyInitialized, getGlobalSnapshot, subscribeToGlobalState } from "../store";
+import { setGlobalState, getGlobalSnapshot, subscribeToGlobalState } from "../store";
 
 export function useS<T>(
   init: T | GlobalStateConfig<T>,
   {
+    persist = false,
     mutableIn = false,
     mutableOut = false,
     forceUpdate = false,
   }: HookConfig = {}
 ): [T, (val: SetStateAction<T>) => void] {
-  const { initialValue, key } = useMemo(() => normalizeInit(init, mutableIn), [init, mutableIn]);
-
-  if (key && !isKeyInitialized(key)) createState<T>({ value: initialValue, key });
+  const { initialValue, key } = useMemo(() => normalizeInit(init, { mutableIn, persist }), [init, mutableIn, persist]);
 
   const [subscribe, getSnapshot] = useMemo(() => {
     if (!key) return [() => () => {}, () => initialValue];

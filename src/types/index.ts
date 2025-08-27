@@ -2,6 +2,7 @@
 export type GlobalStateConfig<T> = { value: T; key: string };
 
 export type HookConfig = {
+  persist?: boolean;
   mutableIn?: boolean;
   mutableOut?: boolean;
   forceUpdate?: boolean;
