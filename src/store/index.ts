@@ -1,5 +1,6 @@
 export {
   store,
+  persistentKeys,
   setGlobalState,
   getGlobalState,
   isKeyInitialized,

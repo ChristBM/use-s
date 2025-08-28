@@ -2,12 +2,18 @@ import type { Listener, SetStorageState, StateEntry } from "../types";
 import { loadFromLocalStorage, saveOnLocalStorage } from "../functions";
 
 export const store = new Map<string, StateEntry<unknown>>();
+export const persistentKeys = new Set<string>();
 
 export function createGlobalState<T>({ key, value, persist }: SetStorageState<T>) {
-  const initialValue: T = persist ? loadFromLocalStorage<T>({ value, key }) : value;
+  let initialValue: T = value;
+
+  if (persist || persistentKeys.has(key)) {
+    persistentKeys.add(key);
+    initialValue = loadFromLocalStorage<T>({ value, key });
+  }
 
   store.set(key, {
-    value,
+    value: initialValue,
     listeners: new Set(),
   });
 }
@@ -20,7 +26,7 @@ export function setGlobalState<T>({ key, value, persist }: SetStorageState<T>) {
     entry.listeners.forEach((fn) => fn());
   }
 
-  if (persist) saveOnLocalStorage({ key, value });
+  if (persist || persistentKeys.has(key)) saveOnLocalStorage({ key, value });
 }
 
 export function getGlobalState(key: string) {
