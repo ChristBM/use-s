@@ -1,14 +1,13 @@
 // hook
-export type GlobalStateConfig<T> = { value: T; key: string };
+export type GlobalStateConfig<T> = { value: T; key: string; persist?: boolean; };
 
 export type HookConfig = {
-  persist?: boolean;
   mutableIn?: boolean;
   mutableOut?: boolean;
   forceUpdate?: boolean;
 };
 
-export type NormalizedIn<T> = { initialValue: T; key?: string };
+export type NormalizedInit<T> = { initialValue: T; key?: string; persist?: boolean; };
 
 export type PartialDeep<T> = {
   [P in keyof T]?: T[P] extends (...args: unknown[]) => unknown

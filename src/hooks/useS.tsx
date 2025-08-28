@@ -7,13 +7,12 @@ import { setGlobalState, getGlobalSnapshot, subscribeToGlobalState } from "../st
 export function useS<T>(
   init: T | GlobalStateConfig<T>,
   {
-    persist = false,
     mutableIn = false,
     mutableOut = false,
     forceUpdate = false,
   }: HookConfig = {}
 ): [T, (val: SetStateAction<T>) => void] {
-  const { initialValue, key } = useMemo(() => normalizeInit(init, { mutableIn, persist }), [init, mutableIn, persist]);
+  const { initialValue, key, persist } = useMemo(() => normalizeInit(init, { mutableIn }), [init, mutableIn]);
 
   const [subscribe, getSnapshot] = useMemo(() => {
     if (!key) return [() => () => {}, () => initialValue];
