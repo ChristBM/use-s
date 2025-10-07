@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "NodeNext",
+    "module": "preserve",
     "lib": ["DOM", "ES2020"],
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "declaration": true,
     "outDir": "dist",
     "rootDir": "src",
