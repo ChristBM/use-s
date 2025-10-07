@@ -54,7 +54,7 @@ export function useS<T>(
     updateState(newState);
   };
 
-  if (mutableOut) return [key ? globalState : localState, setState];
-
-  return [key ? FullCopy(globalState) : FullCopy(localState), setState];
+  return mutableOut
+    ? [key ? globalState : localState, setState]
+    : [key ? FullCopy(globalState) : FullCopy(localState), setState];
 }

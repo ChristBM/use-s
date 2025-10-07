@@ -8,8 +8,8 @@ export function createGlobalState<T>({ key, value, persist }: SetStorageState<T>
   let initialValue: T = value;
 
   if (persist || persistentKeys.has(key)) {
-    persistentKeys.add(key);
     initialValue = loadFromLocalStorage<T>({ value, key });
+    persistentKeys.add(key);
   }
 
   store.set(key, {
