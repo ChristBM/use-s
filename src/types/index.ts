@@ -32,7 +32,8 @@ export type SupportedValueType =
   | "map"
   | "array"
   | "object"
-  | "function";
+  | "function"
+  | "asyncfunction";
 
 export type ComparisonResponseType = "equals" | "different" | "incompatible";
 

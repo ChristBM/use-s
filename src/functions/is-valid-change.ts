@@ -1,9 +1,11 @@
 import { TypeCheck } from "full-copy";
 import type { ComparisonResponseType, SupportedValueType } from "../types";
 
-export function isValidChange(prev: unknown, next: unknown): boolean {
-  if (!isSupported(next)) return false;
+let ignoreFnGlobal: boolean = false;
 
+export function isValidChange(prev: unknown, next: unknown, ignoreFn = false): boolean {
+  ignoreFnGlobal = ignoreFn;
+  if (!isSupported(next)) return false;
   if (!isSameType(prev, next)) {
     if (isNullable(prev, next)) return true;
     return false;
@@ -30,10 +32,12 @@ function isNullable(prev: unknown, next: unknown): boolean {
 }
 
 function isSameType(prev: unknown, next: unknown): boolean {
+  if (ignoreFnGlobal && (((TypeCheck(prev)[0] === "asyncfunction" || TypeCheck(prev)[0] === "function") && TypeCheck(next)[0] === "function"))) return true;
   return TypeCheck(prev)[0] === TypeCheck(next)[0];
 }
 
 function areEqual(prev: unknown, next: unknown): ComparisonResponseType {
+  if (ignoreFnGlobal && (((TypeCheck(prev)[0] === "asyncfunction" || TypeCheck(prev)[0] === "function") && TypeCheck(next)[0] === "function"))) return "equals";
   if (Object.is(prev, next)) return "equals";
 
   switch (TypeCheck(prev)[0]) {
@@ -278,4 +282,5 @@ const supportedTypes: Set<SupportedValueType> = new Set([
   "array",
   "object",
   "function",
+  "asyncfunction"
 ]);

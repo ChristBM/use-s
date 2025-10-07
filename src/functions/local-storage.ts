@@ -11,7 +11,7 @@ export function loadFromLocalStorage<T>({ value: current, key }: GlobalStateConf
   if (storage) {
     const resolved: T = deserialize(storage);
 
-    if (!isValidChange(current, resolved)) return current;
+    if (!isValidChange(current, resolved, true)) return current;
 
     let newState: T = resolved as T;
 
