@@ -25,14 +25,5 @@ export function loadFromLocalStorage<T>({ value: current, key }: GlobalStateConf
 }
 
 export function saveOnLocalStorage<T>({ value, key }: GlobalStateConfig<T>) {
-  return new Promise(function (resolve) {
-    setTimeout(() => {
-      try {
-        localStorage.setItem(key, serialize(value));
-        resolve(true);
-      } catch {
-        resolve(false);
-      }
-    }, 0);
-  });
+  return setTimeout(() => localStorage.setItem(key, serialize(value)), 0);
 }
