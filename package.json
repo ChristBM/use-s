@@ -1,6 +1,6 @@
 {
   "name": "use-s-react",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "useS: the definitive React hook for local and global state — effortless, zero boilerplate, one line, superpowers included",
   "keywords": [
     "react",

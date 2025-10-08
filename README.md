@@ -18,7 +18,7 @@ Is a minimal yet powerful React hook for managing both **local** and **global** 
 - ⚡ **Scales globally** without wrappers or nested trees.
 - 🧩 Works with any state shape: primitives, arrays, objects, deeply nested structures.
 - 🔁 Supports `setState(prev => ...)` logic.
-- 🧼 Built with TypeScript and powered by [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore) and [`full-copy`](https://www.npmjs.com/package/full-copy) for deep reactivity.
+- 🧼 Built with TypeScript and powered by [`useSyncExternalStore`](https://react.dev/reference/react/useSyncExternalStore) and [`full-copy`](https://www.npmjs.com/package/full-copy) for deep reactivity and immutability.
 
 It's a **native and lightweight alternative** to Zustand, Redux Toolkit, React Context, React useReducer and even `useState` itself — perfect for projects that need power and simplicity without the overhead.
 
@@ -201,6 +201,17 @@ export function LocalStateTypeSet() {
 ```
 You can do the same with other supported data types such as: `array | object | map | date | regexp`.
 
+## 💿 Persistence
+
+Starting with version 2.3.0, useS allows an optional parameter in the global state configuration that allows that state to be stored in the web browser's Local Storage.
+
+```tsx
+
+const [count, setCount] = useS({ value: 0, key: 'global-counter', persist: true });
+
+```
+
+This allows useS to read localStorage to load previously stored valid values, as well as save new updates each time setState is executed.
 
 ## 🧪 Debugging (Optional)
 
@@ -221,6 +232,8 @@ useEffect(() => {
 ```
 
 ✅ Fully compatible with React Native — debugGlobalStore() gracefully falls back to console.log when console.table is not available.
+
+Starting with version 2.3.0, debugGlobalStore() displays the keys that are being persisted in localStorage.
 
 🔍 console.table will be used when possible for better clarity.
 

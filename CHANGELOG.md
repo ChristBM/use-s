@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.3.0] - 2025-10-08
+
+### ✨ Added
+
+useS allows a new optional parameter in the global state configuration object called **persist**; this allows you to load from or save to localStorage that state.
+
+```ts
+
+useS({ value: T; key: string; persist?: boolean; })
+
+// example of use
+const [count, setCount] = useS({ value: 0, key: "global-count", persist: true });
+// localStorage
+"global-count" -> 0
+
+```
+
+This feature allows developers to choose which key or global state makes sense to store and easily find it in localStorage, since it uses the same name.
+
+It consists of protection for functions; functions are not stored in localStorage, and during initial loading, it is compared with the initial state value, and only meaningful changes are assigned.
+
+- Functions for serializing and deserializing states and functions for saving and reading localStorage were added.
+
+### 🔄 Changed
+
+- `debugGlobalStore()`: Displays the keys that are being stored in localStorage.
+- `isValidChange()`: A third parameter was added to ignore functions.
+- `deepAssign()`: A third parameter was added to ignore functions.
+
+
+### 🛠️ Fixed
+
+- `normalizeInit()`: The logic for initializing the global state and handling persistence has been improved.
+- `deepAssign()`: The logic and code were improved..
+
+### ❌ Deprecated
+
+- No functionality is deprecated.
+
+---
 ## [2.2.0] - 2025-08-23
 
 ### ✨ Added
