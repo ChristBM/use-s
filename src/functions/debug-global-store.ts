@@ -1,10 +1,15 @@
 import { TypeCheck } from "full-copy";
 import type { DebugOptions, GlobalStateConfig } from "../types";
-import { store } from "../store";
+import { store, persistentKeys } from "../store";
 
 export function debugGlobalStore({ filterKey, consoleLog = false }: DebugOptions = {}) {
   const logWithTable = !consoleLog && typeof console.table === "function";
-  console.group("[🗄️ useS] Global Store Debug");
+
+  console.group("[ 🔐 Persistent Keys ] LocalStorage");
+  console.log(Array.from(persistentKeys).length ? Array.from(persistentKeys) : ">> Empty <<");
+  console.groupEnd();
+
+  console.group("[ 🌐 Global State ] useS()");
 
   for (const [key, entry] of store.entries()) {
     if (filterKey && key !== filterKey) continue;
