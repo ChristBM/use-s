@@ -1,5 +1,5 @@
 import type { PartialDeep } from "../types";
-import { isObject } from "./is-object-with-keys";
+import { isObject } from "./is-object-with-keys.js";
 
 export function deepAssign<T extends object>(target: T, source: PartialDeep<T>, ignoreFn?: boolean): T {
   for (const key in source) {

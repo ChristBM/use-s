@@ -1,9 +1,9 @@
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig } from "../types";
-import { deepAssign } from "./deep-assign";
-import { isValidChange } from "./is-valid-change";
-import { isObjectWithKeys } from "./is-object-with-keys";
-import { serialize, deserialize } from "./serialize-deserialize";
+import { deepAssign } from "./deep-assign.js";
+import { isValidChange } from "./is-valid-change.js";
+import { isObjectWithKeys } from "./is-object-with-keys.js";
+import { serialize, deserialize } from "./serialize-deserialize.js";
 
 export function loadFromLocalStorage<T>({ value: current, key }: GlobalStateConfig<T>): T {
   const storage = localStorage.getItem(key);

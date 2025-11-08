@@ -1,8 +1,8 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig, HookConfig, PartialDeep, SetStateAction } from "../types";
-import { normalizeInit, isValidChange, deepAssign, isObjectWithKeys } from "../functions";
-import { setGlobalState, getGlobalSnapshot, subscribeToGlobalState } from "../store";
+import { normalizeInit, isValidChange, deepAssign, isObjectWithKeys } from "../functions/index.js";
+import { setGlobalState, getGlobalSnapshot, subscribeToGlobalState } from "../store/index.js";
 
 export function useS<T>(
   init: T | GlobalStateConfig<T>,

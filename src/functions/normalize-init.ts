@@ -1,6 +1,6 @@
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig, NormalizedInit } from "../types";
-import { createGlobalState, getGlobalState, isKeyInitialized } from "../store";
+import { createGlobalState, getGlobalState, isKeyInitialized } from "../store/index.js";
 
 export function normalizeInit<T>(init: T | GlobalStateConfig<T>, { mutableIn = false }): NormalizedInit<T> {
   if (isGlobalStateConfig<T>(init)) {

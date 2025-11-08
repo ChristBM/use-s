@@ -7,4 +7,4 @@ export {
   createGlobalState,
   getGlobalSnapshot,
   subscribeToGlobalState,
-} from "./store";
+} from "./store.js";

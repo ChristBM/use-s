@@ -1,6 +1,6 @@
 {
   "name": "use-s-react",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "useS: the definitive React hook for local and global state — effortless, zero boilerplate, one line, superpowers included",
   "keywords": [
     "react",
@@ -32,12 +32,11 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -45,7 +44,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "pack:local": "npm pack --pack-destination ./playgrounds"
   },
   "peerDependencies": {
     "react": ">=18.0.0"
@@ -54,8 +54,8 @@
     "@types/react": "^19.2.2",
     "typescript": "^5.9.3"
   },
+  "type": "module",
   "dependencies": {
-    "full-copy": "^2.0.0"
-  },
-  "type": "module"
+    "full-copy": "^2.0.1"
+  }
 }

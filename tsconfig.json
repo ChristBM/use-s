@@ -4,6 +4,7 @@
     "module": "preserve",
     "lib": ["DOM", "ES2020"],
     "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
     "declaration": true,
     "outDir": "dist",
     "rootDir": "src",

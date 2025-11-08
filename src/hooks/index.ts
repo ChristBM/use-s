@@ -1,1 +1,1 @@
-export { useS } from "./useS";
+export { useS } from "./useS.js";

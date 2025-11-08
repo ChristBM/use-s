@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.3.1] - 2025-11-08
+
+### 🛠️ Fixed
+
+- ESM Compatibility Error (ERR_UNSUPPORTED_DIR_IMPORT)
+- Resolved an issue where Next.js 15 (SSR) failed to load the library due to directory imports without file extensions (e.g. ./hooks → ./hooks/index.js).
+- The build now includes explicit .js specifiers and proper ESM configuration, ensuring full compatibility with Node and Next.js (v15+).
+
+---
 ## [2.3.0] - 2025-10-08
 
 ### ✨ Added

@@ -1,5 +1,5 @@
 import type { Listener, SetStorageState, StateEntry } from "../types";
-import { loadFromLocalStorage, saveOnLocalStorage } from "../functions";
+import { loadFromLocalStorage, saveOnLocalStorage } from "../functions/index.js";
 
 export const store = new Map<string, StateEntry<unknown>>();
 export const persistentKeys = new Set<string>();

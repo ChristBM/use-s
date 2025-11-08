@@ -1,6 +1,6 @@
 import { TypeCheck } from "full-copy";
 import type { DebugOptions, GlobalStateConfig } from "../types";
-import { store, persistentKeys } from "../store";
+import { store, persistentKeys } from "../store/index.js";
 
 export function debugGlobalStore({ filterKey, consoleLog = false }: DebugOptions = {}) {
   const logWithTable = !consoleLog && typeof console.table === "function";
