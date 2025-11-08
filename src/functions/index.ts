@@ -1,5 +1,5 @@
 export { deepAssign } from "./deep-assign.js";
-export { normalizeInit } from "./normalize-init.js";
+export { normalizeInit, getServerSnapshot } from "./normalize-init.js";
 export { isValidChange } from "./is-valid-change.js";
 export { debugGlobalStore } from "./debug-global-store.js";
 export { serialize, deserialize } from "./serialize-deserialize.js";

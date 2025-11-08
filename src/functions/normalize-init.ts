@@ -12,6 +12,11 @@ export function normalizeInit<T>(init: T | GlobalStateConfig<T>, { mutableIn = f
   return { initialValue: mutableIn ? init : FullCopy(init) };
 }
 
+export function getServerSnapshot<T>(init: T | GlobalStateConfig<T>): () => T {
+  const value: T = isGlobalStateConfig<T>(init) ? init.value : init;
+  return () => value;
+}
+
 function isGlobalStateConfig<T>(conf: unknown): conf is GlobalStateConfig<T> {
   return (typeof conf === "object" && conf !== null && "value" in conf && "key" in conf && typeof conf.key === "string" && conf.key.length > 0);
 }

@@ -1,7 +1,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FullCopy } from "full-copy";
 import type { GlobalStateConfig, HookConfig, PartialDeep, SetStateAction } from "../types";
-import { normalizeInit, isValidChange, deepAssign, isObjectWithKeys } from "../functions/index.js";
+import { normalizeInit, getServerSnapshot, isValidChange, deepAssign, isObjectWithKeys } from "../functions/index.js";
 import { setGlobalState, getGlobalSnapshot, subscribeToGlobalState } from "../store/index.js";
 
 export function useS<T>(
@@ -12,6 +12,7 @@ export function useS<T>(
     forceUpdate = false,
   }: HookConfig = {}
 ): [T, (val: SetStateAction<T>) => void] {
+  const serverSnap = useMemo(() => getServerSnapshot(init),[init]);
   const { initialValue, key, persist } = useMemo(() => normalizeInit(init, { mutableIn }), [init, mutableIn]);
 
   const [subscribe, getSnapshot] = useMemo(() => {
@@ -22,7 +23,7 @@ export function useS<T>(
     ];
   }, [key, initialValue]);
 
-  const globalState = useSyncExternalStore(subscribe, getSnapshot);
+  const globalState = useSyncExternalStore(subscribe, getSnapshot, serverSnap);
   const [localState, setLocalState] = useState<T>(initialValue);
 
   function updateState(value: T) {

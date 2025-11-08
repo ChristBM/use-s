@@ -6,8 +6,10 @@ import { isObjectWithKeys } from "./is-object-with-keys.js";
 import { serialize, deserialize } from "./serialize-deserialize.js";
 
 export function loadFromLocalStorage<T>({ value: current, key }: GlobalStateConfig<T>): T {
-  const storage = localStorage.getItem(key);
+  const isServer = typeof window === "undefined";
+  if (isServer) return current;
 
+  const storage = localStorage.getItem(key);
   if (storage) {
     const resolved: T = deserialize(storage);
 

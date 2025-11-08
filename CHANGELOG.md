@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.4.0] - 2025-11-08
+
+### ✨ Added
+
+SSR Support. This release adds full Server-Side Rendering (SSR) compatibility for useS based on useSyncExternalStore.
+
+- Implemented getServerSnapshot for consistent server rendering.
+- Prevented localStorage access during SSR to avoid runtime errors.
+- Ensured automatic state re-hydration in the browser after the initial render.
+
+With this update, useS now works seamlessly in both client-only and server-rendered React apps without additional setup.
+
+---
 ## [2.3.1] - 2025-11-08
 
 ### 🛠️ Fixed
